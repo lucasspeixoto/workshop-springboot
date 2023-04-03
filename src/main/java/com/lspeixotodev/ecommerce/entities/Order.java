@@ -1,5 +1,6 @@
 package com.lspeixotodev.ecommerce.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
 import java.io.Serial;
@@ -18,7 +19,14 @@ public class Order implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
     private Instant moment;
+
+    /**
+     * Quando temos uma relação "muitos para um",
+     * ao carregar o muitos (Order) carregamos automaticamente
+     * o um (User); isso é o lazy loading. O inverso não acontece
+     */
 
     @ManyToOne
     @JoinColumn(name = "client_id")
@@ -60,6 +68,7 @@ public class Order implements Serializable {
     public void setClient(User client) {
         this.client = client;
     }
+
 
     @Override
     public boolean equals(Object o) {

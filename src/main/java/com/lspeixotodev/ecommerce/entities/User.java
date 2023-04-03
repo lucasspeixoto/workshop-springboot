@@ -1,5 +1,6 @@
 package com.lspeixotodev.ecommerce.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serial;
@@ -32,6 +33,23 @@ public class User implements Serializable {
 
     private String password;
 
+    /**
+     * Em properties, o spring.jpa.open-in-view = true, vai
+     * permitir que o Jackson ao serializar o json, verifique
+     * as relações, ao buscar um usuário, ele vai interpretar o
+     * relacionamento e retornar os pedidos tambem (orders), a menos
+     * que usemos o @JsonIgnore no atributo orders
+     */
+
+    /**
+     * A relação entre pedidos e clientes é de 'mão dupla',
+     * ao rodar nosso servidor e buscar os pedidos, esses pedidos,
+     * vão ter usuários, que vão ter pedidos, etc...
+     * A biblioteca de serialização Jackson, vai gerar um loop
+     * infinito de chamada, que resolvemos com o @JsonIgnore
+     */
+
+    @JsonIgnore
     @OneToMany(mappedBy = "client")
     private List<Order> orders = new ArrayList<>();
 

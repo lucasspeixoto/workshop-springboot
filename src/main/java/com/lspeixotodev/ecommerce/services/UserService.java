@@ -22,6 +22,10 @@ public class UserService {
     public User findById(Long id) {
         Optional<User> selectedUser = this.repository.findById(id);
 
+        if (selectedUser.isEmpty()) {
+            throw new IllegalStateException("There is no user with for this id!");
+        }
+
         return selectedUser.get();
     }
 
