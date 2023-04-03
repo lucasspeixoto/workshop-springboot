@@ -31,7 +31,6 @@ public class User implements Serializable {
     private String password;
 
     public User() {
-
     }
 
     public User(Long id, String name, String email, String phone, String password) {
