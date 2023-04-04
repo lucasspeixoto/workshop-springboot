@@ -1,9 +1,7 @@
 package com.lspeixotodev.ecommerce.resourses;
 
 import com.lspeixotodev.ecommerce.entities.Category;
-import com.lspeixotodev.ecommerce.entities.Order;
 import com.lspeixotodev.ecommerce.services.CategoryService;
-import com.lspeixotodev.ecommerce.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
