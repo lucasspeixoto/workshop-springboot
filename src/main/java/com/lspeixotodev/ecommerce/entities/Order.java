@@ -7,7 +7,9 @@ import jakarta.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_order")
@@ -29,27 +31,28 @@ public class Order implements Serializable {
      * o um (User); isso é o lazy loading. O inverso não acontece
      */
 
+    private Integer orderStatus;
+
     @ManyToOne
     @JoinColumn(name = "client_id")
     private User client;
 
-    private Integer orderStatus;
+    @OneToMany(mappedBy = "id.order")
+    private Set<OrderItem> items = new HashSet<>();
 
     public Order() {
-
     }
 
     public Order(Long id, Instant moment, OrderStatus orderStatus, User client) {
         super();
         this.id = id;
         this.moment = moment;
-        this.setOrderStatus(orderStatus);
         this.client = client;
+        this.setOrderStatus(orderStatus);
     }
 
 
     public Long getId() {
-
         return id;
     }
 
@@ -81,6 +84,10 @@ public class Order implements Serializable {
         if (orderStatus != null) {
             this.orderStatus = orderStatus.getCode();
         }
+    }
+
+    public Set<OrderItem> getItems() {
+        return this.items;
     }
 
     @Override
