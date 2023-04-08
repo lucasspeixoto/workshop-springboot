@@ -40,6 +40,15 @@ public class Order implements Serializable {
     @OneToMany(mappedBy = "id.order")
     private Set<OrderItem> items = new HashSet<>();
 
+    /**
+     * No mapeamento OneToOne, estamos mapeando duas classes
+     * para terem o mesmo id, ou seja, se o pedido tiver código 5,
+     * o pagamente tbm vai ter código 5. Nesses casos, temos que
+     * colocar obrigatóriamente o cascate = CascadeType.ALL
+     */
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+    private Payment payment;
+
     public Order() {
     }
 
@@ -88,6 +97,14 @@ public class Order implements Serializable {
 
     public Set<OrderItem> getItems() {
         return this.items;
+    }
+
+    public Payment getPayment() {
+        return payment;
+    }
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
     }
 
     @Override
