@@ -6,3 +6,5 @@
 
 ## 💻 Domain Model
 
+![interface](./domain_model.png 'Domain model')
+
