@@ -1,5 +1,6 @@
 package com.lspeixotodev.ecommerce.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serial;
@@ -24,6 +25,7 @@ public class Payment implements Serializable {
      * //@MapsId Pois Payment obrigatoriamente tem um Order,
      *  ja o Order nao necessariamente tem um Payment
      */
+    @JsonIgnore
     @OneToOne
     @MapsId
     private Order order;
