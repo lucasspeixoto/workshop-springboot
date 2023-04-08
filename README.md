@@ -1,5 +1,5 @@
 <h1 align="center">
-   Quadro de Controle Familiar
+   Backend Generic Ecommerce
 </h1>
 
 <br>
