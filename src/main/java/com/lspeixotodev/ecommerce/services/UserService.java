@@ -36,5 +36,25 @@ public class UserService {
         this.repository.deleteById(id);
     }
 
+    public User update(Long id, User user) {
+        /**
+         * o getReferenceById, diferente do getById, retorna
+         * um objeto monitorado pelo Jpa para somente depois
+         * efetuarmos alguma operação com ele no banco.
+         */
+        User entity = this.repository.getReferenceById(id);
+
+        this.updateUserData(entity, user);
+
+        return this.repository.save(entity);
+
+    }
+
+    public void updateUserData(User entity, User user) {
+        entity.setName(user.getName());
+        entity.setEmail(user.getEmail());
+        entity.setPhone(user.getPhone());
+    }
+
 
 }
