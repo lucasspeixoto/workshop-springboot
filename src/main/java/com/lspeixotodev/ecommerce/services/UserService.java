@@ -2,8 +2,12 @@ package com.lspeixotodev.ecommerce.services;
 
 import com.lspeixotodev.ecommerce.entities.User;
 import com.lspeixotodev.ecommerce.repositories.UserRepository;
+import com.lspeixotodev.ecommerce.services.exceptions.DatabaseException;
 import com.lspeixotodev.ecommerce.services.exceptions.ResourceNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,20 +34,32 @@ public class UserService {
     }
 
     public void delete(Long id) {
-        this.repository.deleteById(id);
+        try {
+            this.repository.deleteById(id);
+        } catch (EmptyResultDataAccessException exception) {
+            throw new ResourceNotFoundException(id);
+        } catch (DataIntegrityViolationException exception) {
+            throw new DatabaseException(exception.getMessage());
+        }
+
     }
 
     public User update(Long id, User user) {
-        /**
-         * o getReferenceById, diferente do getById, retorna
-         * um objeto monitorado pelo Jpa para somente depois
-         * efetuarmos alguma operação com ele no banco.
-         */
-        User entity = this.repository.getReferenceById(id);
+        try {
+            /**
+             * o getReferenceById, diferente do getById, retorna
+             * um objeto monitorado pelo Jpa para somente depois
+             * efetuarmos alguma operação com ele no banco.
+             */
+            User entity = this.repository.getReferenceById(id);
 
-        this.updateUserData(entity, user);
+            this.updateUserData(entity, user);
 
-        return this.repository.save(entity);
+            return this.repository.save(entity);
+
+        } catch (EntityNotFoundException exception) {
+            throw new ResourceNotFoundException(id);
+        }
 
     }
 
